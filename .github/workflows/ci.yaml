@@ -4,6 +4,10 @@ on:
   pull_request:
     branches:
       - master
+  push:
+    branches:
+      - master
+    
       
 jobs:
   build:
@@ -13,7 +17,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Set up Flutter
-        uses: subosito/flutter-action@v1.6.0
+        uses: subosito/flutter-action@v1
 
       - name: Install dependencies
         run: flutter pub get
@@ -25,4 +29,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: my_windows_app
-          path: build/windows
+          path: build/windows/runner/Release
