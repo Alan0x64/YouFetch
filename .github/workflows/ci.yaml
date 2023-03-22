@@ -10,6 +10,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          token: ${{secrets.PAT}} 
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v1.6.0
