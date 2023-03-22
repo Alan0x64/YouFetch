@@ -1,4 +1,4 @@
-name: Build Windows App
+name: Build Windows App and Release
 
 on:
   pull_request:
@@ -10,7 +10,7 @@ on:
     
       
 jobs:
-  build:
+  Build_Windows:
     runs-on: windows-latest
 
     steps:
@@ -28,5 +28,18 @@ jobs:
       - name: Retrieve Windows app
         uses: actions/upload-artifact@v2
         with:
-          name: my_windows_app
+          name: YouFetch_Win
           path: build/windows/runner/Release
+
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v1.0.1 
+          release_name: Release v1.0.1 
+          body: Release notes 
+          draft: false
+          prerelease: false
+          files: |
+            build/windows/runner/Release/YouFetch_Win.zip
