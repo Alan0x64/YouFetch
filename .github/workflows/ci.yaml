@@ -7,7 +7,7 @@ on:
 
 jobs:
   flutter_build:
-    name: Build Flutter Apps
+    name: Build Windows App
     runs-on: windows-2019
     steps:
       - uses: actions/checkout@v2
@@ -18,6 +18,5 @@ jobs:
         with: 
           channel: "stable"
       - run: flutter pub get
-      # - run: flutter build windows
-
+      - run: flutter analyze
 
