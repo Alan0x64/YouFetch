@@ -33,7 +33,7 @@ class _MyAppState extends State<MyApp> {
             theme: ThemeProvider.themeOf(context).data,
             debugShowCheckedModeBanner: false,
             home: Scaffold(
-              appBar: AppBar(title: const Text("You Fetch")),
+              appBar: AppBar(title: const Text("YouFetch")),
               body: LayoutBuilder(
                 builder: (context, constraints) {
                   if (constraints.maxWidth > 700 || constraints.maxWidth <= 400 ) {
