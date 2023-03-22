@@ -23,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    widget.data = YoutuberDownload.yt.search('Xbox one');
+    widget.data = YoutuberDownload.yt.search('Xbox');
   }
 
 
