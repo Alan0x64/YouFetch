@@ -1,24 +1,27 @@
-name: Make Build 
-on:
-  pull_request:
-    branches:
-    - master
+name: Build Windows App
 
+on:
+  push:
+    branches: [main]
 
 jobs:
-  flutter_build:
-    name: Build Windows App
-    runs-on: windows-2019
+  build:
+    runs-on: windows-latest
+
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
-        with: 
-          java-version: "12.x"
-      - uses: subosito/flutter-action@v1
-        with: 
-          channel: "stable"
-      - run: flutter pub get
-      - run: flutter clean
-      - run: flutter build windows
 
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v1.6.0
 
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build Windows app
+        run: flutter build windows
+
+      - name: Retrieve Windows app
+        uses: actions/upload-artifact@v2
+        with:
+          name: my_windows_app
+          path: build/windows
