@@ -1,4 +1,4 @@
-name: CI
+name: Make Build 
 on:
   pull_request:
     branches:
@@ -19,4 +19,4 @@ jobs:
           channel: "stable"
       - run: flutter pub get
       - run: flutter analyze
-      
+
