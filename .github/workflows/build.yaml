@@ -41,5 +41,4 @@ jobs:
           body: Release notes 
           draft: false
           prerelease: false
-          files: |
-            build/windows/runner/Release/YouFetch_Win.zip
+          files: build/windows/runner/Release/YouFetch_Win.zip
