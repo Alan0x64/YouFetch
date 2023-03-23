@@ -13,16 +13,18 @@ jobs:
     runs-on: windows-2022
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Set up Flutter
-        uses: subosito/flutter-action@v1
+        uses: subosito/flutter-action@v2.10.0
+        with:
+          channel: 'stable'
 
       - name: Install dependencies
         run: flutter pub get
 
       - name: Build Windows app
-        run: flutter build windows
+        run: flutter build windows --release
 
       - name: Retrieve Windows app
         uses: actions/upload-artifact@v2
@@ -34,19 +36,21 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Set up Flutter
-        uses: subosito/flutter-action@v1
+        uses: subosito/flutter-action@v2.10.0
+        with:
+          channel: 'stable'
 
       - name: Install dependencies
         run: flutter pub get
 
       - name: Install Build Tools      
-        run: sudo apt install ninja-build 
+        run: sudo apt install ninja-build  libgtk-3-0 libblkid1 liblzma5
 
       - name: Build Linux app
-        run: flutter build linux
+        run: flutter build linux --release
 
       - name: Retrieve Linux app
         uses: actions/upload-artifact@v2
