@@ -47,7 +47,7 @@ jobs:
         run: flutter pub get
 
       - name: Install Build Tools      
-        run: sudo apt install ninja-build  libgtk-3-0 libblkid1 liblzma5
+        run: sudo apt install ninja-build  pkg-config
 
       - name: Build Linux app
         run: flutter build linux --release
