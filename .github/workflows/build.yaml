@@ -47,7 +47,7 @@ jobs:
         run: flutter pub get
 
       - name: Install Build Tools      
-        run: sudo apt install ninja-build  pkg-config
+        run: sudo apt install ninja-build build-essential
 
       - name: Build Linux app
         run: flutter build linux --release
