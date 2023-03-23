@@ -31,13 +31,12 @@ jobs:
           name: YouFetch_Win
           path: build/windows/runner/Release
 
-      - name: Create Release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
-        with:
-          tag_name: v1.0.1 
-          release_name: Release v1.0.1  
-          draft: true
-          prerelease: true
-          args: build/windows/runner/Release/YouFetch_Win.zip
+      # - name: Create Release
+      #   uses: actions/create-release@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.PAT }}
+      #   with:
+      #     tag_name: v1.0.1 
+      #     release_name: Release v1.0.1  
+      #     draft: true
+      #     prerelease: true
