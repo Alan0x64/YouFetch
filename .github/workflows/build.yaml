@@ -20,14 +20,14 @@ jobs:
         with:
           channel: 'stable'
 
-      - name: Install dependencies
+      - name: Install App dependencies
         run: flutter pub get
 
       - name: Build Windows app
         run: flutter build windows --release
 
       - name: Retrieve Windows app
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: YouFetch_Win
           path: build/windows/runner/Release
@@ -43,7 +43,7 @@ jobs:
         with:
           channel: 'stable'
 
-      - name: Install dependencies
+      - name: Install App dependencies
         run: flutter pub get
 
       - name: Install Build Tools      
@@ -53,7 +53,7 @@ jobs:
         run: flutter build linux --release
 
       - name: Retrieve Linux app
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: YouFetch_Linux
           path: build/linux/x64/release/bundle
