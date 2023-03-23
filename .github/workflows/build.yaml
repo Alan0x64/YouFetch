@@ -42,6 +42,9 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
+      - name: Install Build Tools      
+        run: sudo apk install ninja-build 
+
       - name: Build Linux app
         run: flutter build linux
 
