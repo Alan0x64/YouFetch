@@ -37,8 +37,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PAT }}
         with:
           tag_name: v1.0.1 
-          release_name: Release v1.0.1 
-          body: Release notes 
-          draft: false
-          prerelease: false
-          files: build/windows/runner/Release/YouFetch_Win.zip
+          release_name: Release v1.0.1  
+          draft: true
+          prerelease: true
+          args: build/windows/runner/Release/YouFetch_Win.zip
