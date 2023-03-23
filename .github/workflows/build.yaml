@@ -10,7 +10,7 @@ on:
     
 jobs:
   Build_Windows:
-    runs-on: windows-latest
+    runs-on: windows-2022
 
     steps:
       - uses: actions/checkout@v2
@@ -31,7 +31,7 @@ jobs:
           path: build/windows/runner/Release
 
   Build_Linux:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v2
@@ -43,7 +43,7 @@ jobs:
         run: flutter pub get
 
       - name: Install Build Tools      
-        run: sudo apk install ninja-build 
+        run: sudo apt install ninja-build 
 
       - name: Build Linux app
         run: flutter build linux
