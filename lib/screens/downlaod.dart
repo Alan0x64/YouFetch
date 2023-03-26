@@ -76,7 +76,7 @@ class _DownloadScreenState extends State<DownloadScreen> {
               child: TextField(
                 enableInteractiveSelection: true,
                 controller: txtcon,
-                onChanged: (value) async {
+                onChanged: (value) async { 
                   try {
                     widget.vid =
                         await YTDownloader.getVideoInfo(txtcon.text);
