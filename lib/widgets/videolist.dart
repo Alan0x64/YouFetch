@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:youfetch/screens/med.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 import '../screens/videoplayer.dart';
@@ -24,10 +27,12 @@ class VideoListState extends State<VideoList> {
         Video video = widget.videos[index];
         return InkWell(
           onTap: () {
-             goto(
-              context,
-              VideoPlayer(video: video)
-            );
+            if (Platform.isAndroid || Platform.isIOS) {
+              goto(context, VideoPlayer(video: video));
+            } else {
+              goto(context, CrossVideoPlayer(url: video.url));
+              // launchUrlString(video.url,mode: LaunchMode.inAppWebView);
+            }   
           },
           child: Container(
             height: 150,

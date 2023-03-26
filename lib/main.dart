@@ -5,7 +5,7 @@ import 'package:youfetch/screens/downlaod.dart';
 import 'package:youfetch/screens/home.dart';
 
 void main() async {
-  await dotenv.load(fileName: ".env");
+  // await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }
 
