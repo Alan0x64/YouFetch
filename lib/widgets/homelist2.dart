@@ -1,17 +1,13 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 import 'package:youfetch/models/channel.dart';
-import 'package:youfetch/screens/med.dart';
 import 'package:youfetch/screens/videoplayer.dart';
 import 'package:youfetch/util/uploaddatae.dart';
 import 'package:youfetch/widgets/goto.dart';
 import 'package:youtube_api/youtube_api.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
-class HomeList extends StatefulWidget {
-  HomeList({
+class HomeList2 extends StatefulWidget {
+  HomeList2({
     super.key,
     required this.videos,
     required this.channels,
@@ -20,10 +16,10 @@ class HomeList extends StatefulWidget {
   late final List<dynamic> channels;
 
   @override
-  State<HomeList> createState() => _HomeListState();
+  State<HomeList2> createState() => _HomeList2State();
 }
 
-class _HomeListState extends State<HomeList> {
+class _HomeList2State extends State<HomeList2> {
   @override
   Widget build(BuildContext context) {
     var videos = widget.videos;
@@ -33,17 +29,13 @@ class _HomeListState extends State<HomeList> {
       physics: const BouncingScrollPhysics(),
       itemCount: videos.length,
       itemBuilder: (context, index) {
-        Video video = videos[index];
-        Channel channel = channels[index];
+        YouTubeVideo video = videos[index];
+        YoutubeChannel channel = channels[index];
 
         return InkWell(
           onTap: () {
-            if (Platform.isAndroid || Platform.isIOS) {
-              goto(context, VideoPlayer(video: video));
-            } else {
-              goto(context, CrossVideoPlayer(url: video.url));
-              // launchUrlString(video.url,mode: LaunchMode.inAppWebView);
-            }
+            // goto(context, VideoPlayer(video: video));
+            // goto(context, YTWebView(url: video.url,));
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -53,7 +45,7 @@ class _HomeListState extends State<HomeList> {
                 margin: const EdgeInsets.fromLTRB(0, 10, 0, 2),
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: NetworkImage(video.thumbnails.highResUrl),
+                    image: NetworkImage(video.thumbnail.high.url.toString()),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -65,7 +57,7 @@ class _HomeListState extends State<HomeList> {
                     borderRadius: BorderRadius.circular(70),
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: NetworkImage(channel.logoUrl),
+                      image: NetworkImage(channel.thumbnails.high.url.toString()),
                     ),
                   ),
                 ),
@@ -77,9 +69,9 @@ class _HomeListState extends State<HomeList> {
                   ),
                 ),
                 subtitle: Container(
-                  margin: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                  margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
                   child: Text(
-                    "${video.author}  |  ${video.engagement.viewCount} Views  |  ${getTimeAgo(video.uploadDate!)}",
+                    "${video.channelTitle} | ${getTimeAgo(DateTime.parse(video.publishedAt!))}",
                     style: const TextStyle(
                       fontSize: 12,
                     ),

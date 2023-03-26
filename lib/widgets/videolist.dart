@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
+import '../screens/videoplayer.dart';
 import '../util/uploaddatae.dart';
+import 'goto.dart';
 
 class VideoList extends StatefulWidget {
   const VideoList({super.key, required this.videos});
@@ -22,12 +24,10 @@ class VideoListState extends State<VideoList> {
         Video video = widget.videos[index];
         return InkWell(
           onTap: () {
-            launchUrlString(video.url);
-
-            //  goto(
-            //   context,
-            //   ViodePlayer(video: video)
-            // );
+             goto(
+              context,
+              VideoPlayer(video: video)
+            );
           },
           child: Container(
             height: 150,
@@ -35,8 +35,8 @@ class VideoListState extends State<VideoList> {
             child: Row(
               children: [
                 Container(
-                  width: 220,
-                  height: 170,
+                  width: 190,
+                  height: 120,
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image:

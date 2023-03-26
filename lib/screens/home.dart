@@ -1,62 +1,67 @@
 // ignore_for_file: library_private_types_in_public_api, must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:youfetch/controllers/donwloadvideo.dart';
+import 'package:youfetch/controllers/explode.dart';
+import 'package:youfetch/controllers/yt_downloader.dart';
+import 'package:youfetch/controllers/youtubeapi.dart';
+import 'package:youfetch/models/channel.dart';
 import 'package:youfetch/util/appbar.dart';
 import 'package:youfetch/util/console.dart';
 import 'package:youfetch/util/searchvideos.dart';
+import 'package:youfetch/widgets/future_builder.dart';
 import 'package:youfetch/widgets/homelist.dart';
+import 'package:youfetch/widgets/homelist2.dart';
 import 'package:youfetch/widgets/search.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
-   late Future<dynamic>? data;
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  VideoSearchList? vidd;
+  late Future<List<dynamic>> vidoes;
+  late List<dynamic> channles;
+
+  late Future<List<dynamic>?> channless;
 
   @override
   void initState() {
     super.initState();
-    widget.data = YoutuberDownload.yt.search('Playstation');
-  }
 
+    vidoes = YTExplode.search("MortalKomabt x trailer");
+    channless = YTExplode.getVideoChannels(vidoes);
+  }
 
   @override
   Widget build(BuildContext context) {
     try {
       return Scaffold(
-        appBar: buildAppBar(
-          context,
-          "Home",
-          search: true,
-          searchWidget: Search(
-            body: (query) => searchVideos(query),
+          appBar: buildAppBar(
+            context,
+            "Home",
+            search: true,
+            searchWidget: Search(
+              body: (query) => searchVideos(query),
+            ),
           ),
-        ),
-        body: FutureBuilder(
-          future:widget.data ,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return HomeList(videos: snapshot.data!);
-            } else if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
-            } else {
-              return const Center(
-                child: CircularProgressIndicator(),
+          body: BuildFuture(
+            callback: () async {
+              channles=(await channless)!;
+              return vidoes;
+            },
+            builder: (data) {
+              return HomeList(
+                videos: data,
+                channels: channles
               );
-            }
-          },
-        ),
-      );
+            },
+          ));
     } catch (e) {
       AppConsole.log(e);
-      return const Text("Somthing Went Wrong");
+      return const Text("Something Went Wrong");
     }
   }
 }

@@ -1,7 +1,11 @@
 // ignore_for_file: use_build_context_synchronously, must_be_immutable
 
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:youfetch/controllers/donwloadvideo.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:youfetch/controllers/yt_downloader.dart';
 import 'package:youfetch/util/appbar.dart';
 import 'package:youfetch/util/console.dart';
 import 'package:youfetch/widgets/videocard.dart';
@@ -46,7 +50,7 @@ class _DownloadScreenState extends State<DownloadScreen> {
               flex: 5,
               child: FutureBuilder(
                 key: _futureBuilderKey,
-                future: YoutuberDownload.getVideoInfo(txtcon.text),
+                future: YTDownloader.getVideoInfo(txtcon.text),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return Center(
@@ -75,9 +79,9 @@ class _DownloadScreenState extends State<DownloadScreen> {
                 onChanged: (value) async {
                   try {
                     widget.vid =
-                        await YoutuberDownload.getVideoInfo(txtcon.text);
+                        await YTDownloader.getVideoInfo(txtcon.text);
                     widget.playlist =
-                        await YoutuberDownload.getPlaylistInfo(txtcon.text);
+                        await YTDownloader.getPlaylistInfo(txtcon.text);
                     _futureBuilderKey.currentState!.reassemble();
                     setState(() {});
                   } catch (e) {
@@ -100,10 +104,10 @@ class _DownloadScreenState extends State<DownloadScreen> {
                 Expanded(
                   flex: 1,
                   child: SizedBox(
-                    height: 70,
+                    height: 50,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(255, 223, 14, 14),
+                        backgroundColor: const Color.fromARGB(255, 173, 11, 11),
                       ),
                       child: const Text(
                         "Stop Downloads",
@@ -113,7 +117,7 @@ class _DownloadScreenState extends State<DownloadScreen> {
                         ),
                       ),
                       onPressed: () async {
-                        YoutuberDownload.restartConnection();
+                        YTDownloader.restartConnection();
                         setState(() {});
                       },
                     ),
@@ -125,7 +129,34 @@ class _DownloadScreenState extends State<DownloadScreen> {
                 Expanded(
                   flex: 1,
                   child: SizedBox(
-                    height: 70,
+                    height: 50,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromARGB(255, 7, 73, 172),
+                      ),
+                      child: const Text(
+                        "Set Donwload Location",
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      onPressed: () async {
+                        YTDownloader.userVideosDic =
+                            (await FilePicker.platform.getDirectoryPath())!;
+                        AppConsole.log(YTDownloader.userVideosDic);
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+             const SizedBox(
+                  height: 5,
+                ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+                    height: 50,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color.fromARGB(255, 5, 134, 26),
@@ -139,21 +170,25 @@ class _DownloadScreenState extends State<DownloadScreen> {
                       ),
                       onPressed: () async {
                         widget.vid =
-                            await YoutuberDownload.getVideoInfo(txtcon.text);
+                            await YTDownloader.getVideoInfo(txtcon.text);
                         widget.playlist =
-                            await YoutuberDownload.getPlaylistInfo(txtcon.text);
+                            await YTDownloader.getPlaylistInfo(txtcon.text);
 
                         if (widget.vid != null && widget.playlist == null) {
-                          widget.vid = await YoutuberDownload.downloadFromURL(
-                              txtcon.text);
-                          snackbar(context, "Video Downloaded!", 2);
+                          widget.vid =
+                              await YTDownloader.download(context,txtcon.text);
+                                 if (widget.vid!=null) {
+                                    snackbar(context, "Video Downloaded!", 3);
+                                  }
                         } else if (widget.playlist != null &&
                             widget.vid == null) {
                           snackbar(context, "Playlist Found!", 3);
                           widget.playlist =
-                              await YoutuberDownload.downloadPlaylist(
+                              await YTDownloader.downloadPlaylist(context,
                                   txtcon.text);
-                          snackbar(context, "Videos Downloaded!", 3);
+                                  if (widget.playlist!=null) {
+                                    snackbar(context, "Videos Downloaded!", 3);
+                                  }
                         } else {
                           snackbar(context, "Invaild Link!", 3);
                           return;
@@ -162,9 +197,6 @@ class _DownloadScreenState extends State<DownloadScreen> {
                       },
                     ),
                   ),
-                ),
-              ],
-            ),
           ],
         ),
       ),

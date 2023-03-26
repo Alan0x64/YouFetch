@@ -1,9 +1,15 @@
-import 'package:youtube_explode_dart/youtube_explode_dart.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:youtube_api/youtube_api.dart';
 
-class YoutubeAPI {
-  static var yt = YoutubeExplode();
+class Youtube {
+  static int maxResults = 25;
+  static String _key = dotenv.get('YT_API_BROWSER');
+  static YoutubeAPI api = YoutubeAPI(_key, maxResults: maxResults);
+  static List<String> searchType = ['video', 'channel', 'playlist'];
 
-  static Future<List<Video>>  search(String query) async {
-    return await yt.search(query);
+  static Future<List<YouTubeVideo>> search(String query, int vidChList) async {
+    return await api.search(query, type: searchType[vidChList]);
   }
+
+ 
 }

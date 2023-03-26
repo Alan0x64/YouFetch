@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:youfetch/util/appbar.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
+
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class ViodePlayer extends StatefulWidget {
-  const ViodePlayer({super.key, required this.video});
+class VideoPlayer extends StatefulWidget {
+  const VideoPlayer({super.key, required this.video});
   final Video video;
 
   @override
-  State<ViodePlayer> createState() => _ViodePlayerState();
+  State<VideoPlayer> createState() => _VideoPlayerState();
 }
 
-class _ViodePlayerState extends State<ViodePlayer> {
+class _VideoPlayerState extends State<VideoPlayer> {
   YoutubePlayerController? controller;
 
   @override
@@ -27,17 +28,17 @@ class _ViodePlayerState extends State<ViodePlayer> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: buildAppBar(context, widget.video.title),
-      body: YoutubePlayer(
-          onReady :() {
-          controller?.addListener(() {
-        setState(() {
-    
-        });
-          },);
+    return YoutubePlayerBuilder(
+      player: YoutubePlayer(
+        controller: controller!,
+        showVideoProgressIndicator: true,
+      ),
+      builder: (p0, p1) {
+        return Scaffold(
+      appBar: buildAppBar(p0, widget.video.title),
+      body: p1
+    );
       },
-          controller: controller!, showVideoProgressIndicator: true),
     );
   }
 }

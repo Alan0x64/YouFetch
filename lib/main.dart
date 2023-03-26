@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:theme_provider/theme_provider.dart';
 import 'package:youfetch/screens/downlaod.dart';
 import 'package:youfetch/screens/home.dart';
 
-void main() {
+void main() async {
+  await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }
 
@@ -20,7 +22,6 @@ class _MyAppState extends State<MyApp> {
   final List<Widget> _children = [
     HomeScreen(),
     DownloadScreen(),
-    DownloadScreen(),
   ];
 
   @override
@@ -36,7 +37,8 @@ class _MyAppState extends State<MyApp> {
               appBar: AppBar(title: const Text("You Fetch")),
               body: LayoutBuilder(
                 builder: (context, constraints) {
-                  if (constraints.maxWidth > 700 || constraints.maxWidth <= 400 ) {
+                  if (constraints.maxWidth > 700 ||
+                      constraints.maxWidth <= 400) {
                     return const Center(
                         child: Text(
                       'Your device screen is too big or small!',
@@ -66,10 +68,10 @@ class _MyAppState extends State<MyApp> {
                     icon: Icon(Icons.file_download),
                     label: 'Download',
                   ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.book),
-                    label: 'Library',
-                  ),
+                  // BottomNavigationBarItem(
+                  //   icon: Icon(Icons.book),
+                  //   label: 'Library',
+                  // ),
                 ],
               ),
             ),
