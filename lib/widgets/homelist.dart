@@ -1,23 +1,18 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher_string.dart';
-import 'package:youfetch/models/channel.dart';
-import 'package:youfetch/screens/med.dart';
-import 'package:youfetch/screens/videoplayer.dart';
+import 'package:youfetch/screens/video.dart';
 import 'package:youfetch/util/uploaddatae.dart';
 import 'package:youfetch/widgets/goto.dart';
-import 'package:youtube_api/youtube_api.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class HomeList extends StatefulWidget {
-  HomeList({
+  const HomeList({
     super.key,
     required this.videos,
     required this.channels,
   });
-  late final List<dynamic> videos;
-  late final List<dynamic> channels;
+   final List<dynamic> videos;
+   final List<dynamic> channels;
 
   @override
   State<HomeList> createState() => _HomeListState();
@@ -35,15 +30,9 @@ class _HomeListState extends State<HomeList> {
       itemBuilder: (context, index) {
         Video video = videos[index];
         Channel channel = channels[index];
-
         return InkWell(
-          onTap: () {
-            if (Platform.isAndroid || Platform.isIOS) {
-              goto(context, VideoPlayer(video: video));
-            } else {
-              goto(context, CrossVideoPlayer(url: video.url));
-              // launchUrlString(video.url,mode: LaunchMode.inAppWebView);
-            }
+          onTap: () async {
+            goto(context, VideoScreen(vid: video));
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,

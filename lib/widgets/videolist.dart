@@ -1,12 +1,8 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher_string.dart';
-import 'package:youfetch/screens/med.dart';
+import 'package:youfetch/screens/video.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
-
-import '../screens/videoplayer.dart';
-import '../util/uploaddatae.dart';
+import 'package:youfetch/util/uploaddatae.dart';
 import 'goto.dart';
 
 class VideoList extends StatefulWidget {
@@ -26,14 +22,7 @@ class VideoListState extends State<VideoList> {
       itemBuilder: (context, index) {
         Video video = widget.videos[index];
         return InkWell(
-          onTap: () {
-            if (Platform.isAndroid || Platform.isIOS) {
-              goto(context, VideoPlayer(video: video));
-            } else {
-              goto(context, CrossVideoPlayer(url: video.url));
-              // launchUrlString(video.url,mode: LaunchMode.inAppWebView);
-            }   
-          },
+          onTap: () async {goto(context, VideoScreen(vid: video));},
           child: Container(
             height: 150,
             padding: const EdgeInsets.all(10.0),

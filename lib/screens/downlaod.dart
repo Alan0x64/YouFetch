@@ -1,10 +1,8 @@
 // ignore_for_file: use_build_context_synchronously, must_be_immutable
 
-import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:youfetch/controllers/yt_downloader.dart';
 import 'package:youfetch/util/appbar.dart';
 import 'package:youfetch/util/console.dart';

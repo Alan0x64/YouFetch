@@ -59,14 +59,59 @@ jobs:
           path: build/linux/x64/release/bundle
 
 
+  Build_Android:
+      runs-on: ubuntu-latest
 
+      steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      # - name: Create Release
-      #   uses: actions/create-release@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.PAT }}
-      #   with:
-      #     tag_name: v1.0.1 
-      #     release_name: Release v1.0.1  
-      #     draft: true
-      #     prerelease: true
+      - name: Set up Java
+        uses: actions/setup-java@v3.10.0
+        with:
+          distribution: 'oracle'
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2.10.0
+        with:
+          channel: 'stable'
+
+      # - name: Create YouFetch ENV File
+      #   run: echo "devproductionIP = 'http://18.168.59.10:3000' \n authproductionIP = 'http://18.168.59.10:8000/RT'" > user_app/.env
+      
+      - name: Install YouFetch Dependencies
+        run: flutter pub get
+
+      - name: Build YouFetch
+        run: flutter build apk --release
+      
+      - name: Retrieve YouFetch APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: YouFetch
+          path: build/app/outputs/flutter-apk/app-release.apk
+      
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1.1.4
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+        with:
+          tag_name: v1.0.1
+          release_name: Release v1.0.1  
+          draft: false
+          prerelease: true
+
+      - name: Upload YouFetch APK
+        uses: actions/upload-release-asset@v1.0.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} 
+          asset_path: user_app/build/app/outputs/flutter-apk/app-release.apk
+          asset_name: YouFetch.apk
+          asset_content_type: application/zip
+      
+
+     

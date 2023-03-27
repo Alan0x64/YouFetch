@@ -5,7 +5,6 @@
 list(APPEND FLUTTER_PLUGIN_LIST
   dart_vlc
   flutter_meedu_videoplayer
-  media_kit_video
   screen_retriever
   url_launcher_linux
   window_manager

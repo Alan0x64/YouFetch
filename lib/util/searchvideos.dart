@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:youfetch/controllers/youtubeapi.dart';
-import 'package:youtube_api/youtube_api.dart';
 
 import '../controllers/explode.dart';
 import '../widgets/videolist.dart';

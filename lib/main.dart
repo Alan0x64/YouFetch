@@ -20,7 +20,7 @@ class _MyAppState extends State<MyApp> {
   int _currentIndex = 0;
 
   final List<Widget> _children = [
-    HomeScreen(),
+    const HomeScreen(),
     DownloadScreen(),
   ];
 
@@ -38,7 +38,7 @@ class _MyAppState extends State<MyApp> {
               body: LayoutBuilder(
                 builder: (context, constraints) {
                   if (constraints.maxWidth > 700 ||
-                      constraints.maxWidth <= 400) {
+                      constraints.maxWidth <= 300) {
                     return const Center(
                         child: Text(
                       'Your device screen is too big or small!',

@@ -1,12 +1,8 @@
-
 import 'package:flutter/material.dart';
-
-
 
 class Search extends SearchDelegate {
   final Widget Function(String query) body;
   VoidCallback? setState;
-
 
   Search({
     required this.body,
@@ -15,7 +11,11 @@ class Search extends SearchDelegate {
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
-      IconButton(onPressed: () {}, icon: const Icon(Icons.clear)),
+      IconButton(
+          onPressed: () {
+            query = '';
+          },
+          icon: const Icon(Icons.clear)),
     ];
   }
 
