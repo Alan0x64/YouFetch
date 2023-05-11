@@ -1,11 +1,11 @@
-// ignore_for_file: use_build_context_synchronously, must_be_immutable
-
+// ignore_for_file: use_build_context_synchronously
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:youfetch/controllers/yt_downloader.dart';
 import 'package:youfetch/util/appbar.dart';
 import 'package:youfetch/util/console.dart';
+import 'package:youfetch/util/notification.dart';
 import 'package:youfetch/widgets/videocard.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
@@ -72,12 +72,12 @@ class _DownloadScreenState extends State<DownloadScreen> {
             Expanded(
               flex: 1,
               child: TextField(
+                keyboardType: TextInputType.none,
                 enableInteractiveSelection: true,
                 controller: txtcon,
-                onChanged: (value) async { 
+                onChanged: (value) async {
                   try {
-                    widget.vid =
-                        await YTDownloader.getVideoInfo(txtcon.text);
+                    widget.vid = await YTDownloader.getVideoInfo(txtcon.text);
                     widget.playlist =
                         await YTDownloader.getPlaylistInfo(txtcon.text);
                     _futureBuilderKey.currentState!.reassemble();
@@ -149,52 +149,63 @@ class _DownloadScreenState extends State<DownloadScreen> {
                 ),
               ],
             ),
-             const SizedBox(
-                  height: 5,
-                ),
+            const SizedBox(
+              height: 5,
+            ),
             SizedBox(
               width: MediaQuery.of(context).size.width,
-                    height: 50,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(255, 5, 134, 26),
-                      ),
-                      child: const Text(
-                        "Download Video Or Playlist",
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      onPressed: () async {
-                        widget.vid =
-                            await YTDownloader.getVideoInfo(txtcon.text);
-                        widget.playlist =
-                            await YTDownloader.getPlaylistInfo(txtcon.text);
-
-                        if (widget.vid != null && widget.playlist == null) {
-                          widget.vid =
-                              await YTDownloader.download(context,txtcon.text);
-                                 if (widget.vid!=null) {
-                                    snackbar(context, "Video Downloaded!", 3);
-                                  }
-                        } else if (widget.playlist != null &&
-                            widget.vid == null) {
-                          snackbar(context, "Playlist Found!", 3);
-                          widget.playlist =
-                              await YTDownloader.downloadPlaylist(context,
-                                  txtcon.text);
-                                  if (widget.playlist!=null) {
-                                    snackbar(context, "Videos Downloaded!", 3);
-                                  }
-                        } else {
-                          snackbar(context, "Invaild Link!", 3);
-                          return;
-                        }
-                        setState(() {});
-                      },
-                    ),
+              height: 50,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 5, 134, 26),
+                ),
+                child: const Text(
+                  "Download Video Or Playlist",
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
                   ),
+                ),
+                onPressed: () async {
+                  widget.vid = await YTDownloader.getVideoInfo(txtcon.text);
+                  widget.playlist =
+                      await YTDownloader.getPlaylistInfo(txtcon.text);
+
+                  if (widget.vid != null && widget.playlist == null) {
+                    await NotificationHelper.sendNotification(
+                        body: "Started Downloading - ${widget.vid!.title} ");
+                    widget.vid =
+                        await YTDownloader.download(context, txtcon.text);
+                    if (widget.vid != null) {
+                      await NotificationHelper.sendNotification(
+                          body: "Video Downloaded! - ${widget.vid!.title}");
+                      snackbar(context, "Video Downloaded!", 3);
+                    }
+                  } else if (widget.playlist != null && widget.vid == null) {
+                    snackbar(context, "Playlist Found!", 3);
+                    await NotificationHelper.sendNotification(
+                        body: "Started Donwloading PLaylist!");
+
+                    widget.playlist = await YTDownloader.downloadPlaylist(
+                        context, txtcon.text);
+                    if (widget.playlist != null) {
+                      await NotificationHelper.sendNotification(
+                          body: "Playlist Donwloaded!");
+                      snackbar(context, "Videos Downloaded!", 3);
+                    }
+                  } else {
+                    // AppConsole.log(widget.vid);
+                    // AppConsole.log(widget.playlist);
+                    await NotificationHelper.sendNotification(
+                        body: "Donwload Faild-Invaild Link");
+
+                    snackbar(context, "Invaild Link!", 3);
+                    return;
+                  }
+                  setState(() {});
+                },
+              ),
+            ),
           ],
         ),
       ),

@@ -7,5 +7,9 @@ Flutter App For Donwloading Youtube Videos
 - Linux
 
 ## Todos
-- test if i can chnage maxresults varibale 
+- Add button to open video in webview with  URL launcher
+- Update donwload UI
+- Download Video In Mp3
+- Donwload with full quality sound & video
+
 

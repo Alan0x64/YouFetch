@@ -7,8 +7,8 @@ AppBar buildAppBar(BuildContext context, String title,
     bool search = false,
     SearchDelegate? searchWidget}) {
   return AppBar(
-    backgroundColor: Theme.of(context).primaryColor,
-    title: Text(title),
+    backgroundColor: Colors.white,
+    title: Text(title,style: const TextStyle(color: Colors.black),),
     leading: button,
     elevation: 0,
     actions: [

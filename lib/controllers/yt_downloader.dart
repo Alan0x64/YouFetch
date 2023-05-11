@@ -105,10 +105,9 @@ class YTDownloader {
         yt.videos.streamsClient.get(streamInfo),
       );
 
-      if (res == true) {
-        return video;
-      }
+      if (res == true) return video;
     } catch (e) {
+      snackbar(context, e.toString(), 4);
       AppConsole.log(e);
       return null;
     }
